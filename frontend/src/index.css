@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import modern variable font */
+@import url('https://rsms.me/inter/inter.css');
+
+/* Base layer: modern defaults */
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    @apply font-sans antialiased text-aws-font-color-light dark:text-aws-font-color-dark bg-transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* App background: subtle gradient + grid for YC-like minimal aesthetic */
+  .light .bg-aws-paper-light {
+    background-color: theme('colors.aws-paper.light');
+    background-image:
+      radial-gradient(50% 50% at 100% 0%, rgba(59,130,246,0.06) 0%, rgba(255,255,255,0) 60%),
+      radial-gradient(50% 50% at 0% 100%, rgba(34,211,238,0.06) 0%, rgba(255,255,255,0) 60%);
+  }
+  .dark .bg-aws-paper-dark {
+    background-color: theme('colors.aws-paper.dark');
+    background-image:
+      radial-gradient(60% 60% at 100% 0%, rgba(59,130,246,0.12) 0%, rgba(0,0,0,0) 60%),
+      radial-gradient(60% 60% at 0% 100%, rgba(34,197,94,0.10) 0%, rgba(0,0,0,0) 60%);
+  }
+
+  /* Better focus rings */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.35);
+  }
+}
+
+/* Glass surface utility */
+@layer components {
+  .glass-surface {
+    @apply bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-soft;
+  }
+  .card-surface {
+    @apply rounded-2xl shadow-soft bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/10;
+  }
+}
+
 /* tailwindの設定で上書きされてしまうので、importantを設定する */
 .amplify-button--primary {
   background-color: var(

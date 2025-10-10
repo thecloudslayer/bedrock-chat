@@ -16,17 +16,16 @@ const ExpandableDrawerGroup: React.FC<Props> = ({
   const [isShow, setIsShow] = useState(isDefaultShow);
 
   return (
-    <div className={twMerge(props.className)}>
+    <div className={twMerge('px-2 py-2', props.className)}>
       <div
-        className="flex w-full cursor-pointer items-center transition hover:brightness-75"
+        className="mb-1 flex w-full cursor-pointer items-center gap-1 text-[11px] font-medium uppercase tracking-wide text-aws-font-color-gray/80 transition hover:brightness-110"
         onClick={() => {
           setIsShow(!isShow);
         }}>
-        <PiCaretDown className={`mx-1 text-sm ${isShow ? '' : 'rotate-180'}`} />
-
-        <div className="italic">{props.label}</div>
+        <PiCaretDown className={`mx-0.5 text-xs ${isShow ? '' : 'rotate-180'}`} />
+        <div>{props.label}</div>
       </div>
-      <div className="">
+      <div>
         <div
           className={`origin-top transition-all ${
             isShow ? 'visible' : 'h-0 scale-y-0'

@@ -11,6 +11,17 @@ In this sample, you can locally modify and launch the frontend using AWS resourc
 1. Refer to [Deploy using CDK](../README.md#deploy-using-cdk) for deploying on the AWS environment.
 2. Copy the `frontend/.env.template` and save it as `frontend/.env.local`.
 3. Fill in the contents of `.env.local` based on the output results of `npx cdk deploy` (such as `BedrockChatStack.AuthUserPoolClientIdXXXXX`).
+
+   - Or generate it automatically using AWS CLI (requires `aws` and `jq`):
+
+   ```bash
+   # From the repo root, auto-detect the latest *BedrockChatStack* and region
+   bash scripts/generate_frontend_env.sh
+
+   # Or specify explicitly
+   bash scripts/generate_frontend_env.sh -s dev-BedrockChatStack -r us-west-2
+   ```
+
 4. Execute the following command:
 
 ```zsh

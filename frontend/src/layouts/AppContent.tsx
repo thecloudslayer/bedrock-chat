@@ -146,9 +146,9 @@ const AppContent: React.FC<Props> = (props) => {
       />
 
       <main className="relative flex min-h-dvh flex-1 flex-col overflow-y-hidden transition-width">
-        <header className="visible flex h-12 w-full items-center bg-aws-squid-ink-light p-3 text-lg text-aws-font-color-white-light dark:bg-aws-squid-ink-dark dark:text-aws-font-color-white-dark lg:hidden lg:h-0">
+        <header className="visible sticky top-3 z-20 mx-3 mt-3 flex h-12 w-[calc(100%-1.5rem)] items-center rounded-xl glass-surface px-3 text-lg text-aws-font-color-light dark:text-aws-font-color-white-dark shadow-soft ring-1 ring-black/5 dark:ring-white/10 lg:hidden lg:h-0">
           <button
-            className="mr-2 rounded-full p-2 hover:brightness-50 focus:outline-none focus:ring-1 "
+            className="mr-2 rounded-full p-2 transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/10 focus:outline-none focus:ring-1 focus:ring-blue-400/50"
             onClick={() => {
               switchDrawer();
             }}>

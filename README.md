@@ -68,6 +68,66 @@ By using the [Agent functionality](./docs/AGENT.md), your chatbot can automatica
 
 </details>
 
+## Run locally (Quickstart)
+
+If you just want to run the app locally for development, follow these steps. For full details see docs/LOCAL_DEVELOPMENT.md.
+
+Prerequisites
+- Node.js 18+ and npm
+- Python 3.10+ (for optional backend local run)
+- AWS CLI configured (aws configure) with an account that has access to Amazon Bedrock and can deploy CDK stacks
+- CDK v2 (npx cdk --version)
+
+1) Deploy AWS resources (once)
+- This app relies on AWS (Cognito, API Gateway, DynamoDB, Bedrock, etc.). Deploy the stack to your AWS account first.
+
+```bash
+cd cdk
+npm ci
+npx cdk bootstrap
+npx cdk deploy --require-approval never --all
+```
+
+2) Create frontend env file
+- Copy the template and fill in values from the CloudFormation outputs printed by the deploy (AuthUserPoolId, AuthUserPoolClientId, BackendApiUrl, etc.).
+
+```bash
+cd ../frontend
+cp .env.template .env.local
+# Edit .env.local and set VITE_* values from the CDK/CloudFormation outputs
+```
+
+- Or generate it automatically using AWS CLI (requires `aws` and `jq`):
+
+```bash
+# From the repo root, auto-detect the latest *BedrockChatStack* and region
+bash scripts/generate_frontend_env.sh
+
+# Or specify explicitly
+bash scripts/generate_frontend_env.sh -s dev-BedrockChatStack -r us-west-2
+```
+
+3) Start the frontend locally
+
+```bash
+npm ci
+npm run dev
+```
+
+- The dev server will start (typically on http://localhost:5173). Log in using the Cognito user you created.
+
+Optional: run the backend locally (advanced)
+- You can run the FastAPI backend locally against your deployed AWS resources. See backend/README.md for the required environment variables and commands. In short:
+
+```bash
+cd backend
+python3 -m venv .venv && source .venv/bin/activate # optional
+pip install poetry && poetry install
+poetry run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+For linting/hooks and more local tips, see docs/LOCAL_DEVELOPMENT.md.
+
 ## 🚀 Super-easy Deployment
 
 - In the us-east-1 region, open [Bedrock Model access](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess) > `Manage model access` > Check all of models you wish to use and then `Save changes`.

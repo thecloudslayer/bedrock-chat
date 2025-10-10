@@ -190,6 +190,7 @@ const ChatMessage: React.FC<Props> = (props) => {
         )}
 
         <div className="ml-5 grow ">
+          <div className={twMerge('card-surface p-4 w-full', chatContent?.role === 'user' ? 'bg-aws-sea-blue-light/5 dark:bg-aws-sea-blue-dark/5' : '')}>
           {chatContent?.role === 'assistant' &&
             tools != null &&
             tools.length > 0 && (
@@ -346,6 +347,7 @@ const ChatMessage: React.FC<Props> = (props) => {
                 .join('\n')}
             </ChatMessageMarkdown>
           )}
+        </div>
         </div>
       </div>
 

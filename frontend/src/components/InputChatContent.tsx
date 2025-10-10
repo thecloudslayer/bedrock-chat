@@ -13,7 +13,7 @@ import Button from './Button';
 import {
   PiArrowsCounterClockwise,
   PiX,
-  PiArrowFatLineRight,
+  PiRobot,
 } from 'react-icons/pi';
 import { LuFilePlus2 } from 'react-icons/lu';
 import { useTranslation } from 'react-i18next';
@@ -474,7 +474,7 @@ const InputChatContent = forwardRef<HTMLElement, Props>(
           onDrop={onDrop}
           className={twMerge(
             props.className,
-            'relative mb-7 flex w-11/12 flex-col gap-1 rounded-xl border border-black/10 bg-white shadow-[0_0_30px_7px] shadow-light-gray dark:bg-aws-ui-color-dark dark:shadow-black/35 md:w-10/12 lg:w-4/6 xl:w-3/6'
+            'relative mb-7 flex w-11/12 flex-col gap-1 rounded-2xl glass-surface ring-1 ring-black/5 dark:ring-white/10 md:w-10/12 lg:w-4/6 xl:w-3/6'
           )}>
           <div className="flex w-full">
             <Textarea
@@ -575,7 +575,7 @@ const InputChatContent = forwardRef<HTMLElement, Props>(
                     className="bg-aws-paper-light p-2 text-sm dark:bg-aws-paper-dark"
                     outlined
                     onClick={props.continueGenerate}>
-                    <PiArrowFatLineRight className="mr-2" />
+                    <PiRobot className="mr-2" />
                     {t('button.continue')}
                   </Button>
                 )}

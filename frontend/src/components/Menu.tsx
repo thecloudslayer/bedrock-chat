@@ -75,7 +75,7 @@ const MenuSettings: React.FC<Props> = (props) => {
       <Button
         ref={buttonRef}
         className={twMerge(
-          'relative bg-aws-squid-ink-light dark:bg-aws-squid-ink-dark',
+          'relative bg-transparent',
           props.className
         )}
         text
@@ -89,7 +89,7 @@ const MenuSettings: React.FC<Props> = (props) => {
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute bottom-10 left-2 w-60 rounded border border-aws-font-color-white-light bg-aws-sea-blue-light text-aws-font-color-white-light dark:border-aws-font-color-white-dark dark:bg-aws-ui-color-dark dark:text-aws-font-color-white-dark">
+          className="absolute bottom-10 left-2 w-60 rounded-2xl border border-black/10 bg-white text-aws-font-color-light shadow-soft ring-1 ring-black/5 dark:border-white/10 dark:bg-aws-ui-color-dark dark:text-aws-font-color-white-dark dark:ring-white/10">
           <div className="flex flex-col gap-1 border-b p-2">
             <div className="font-bold">{userName}</div>
             <div className="">
@@ -103,7 +103,7 @@ const MenuSettings: React.FC<Props> = (props) => {
           </div>
 
           <div
-            className="flex w-full cursor-pointer items-center p-2 hover:bg-aws-sea-blue-hover-light dark:hover:bg-aws-paper-dark"
+            className="flex w-full cursor-pointer items-center p-2 hover:bg-black/5 dark:hover:bg-white/10"
             onClick={() => {
               setIsOpen(false);
               props.onClickDrawerOptions();
@@ -122,7 +122,7 @@ const MenuSettings: React.FC<Props> = (props) => {
             {t('button.language')}
           </div>
 
-          <div className="flex w-full items-center px-2 hover:bg-aws-sea-blue-hover-light dark:hover:bg-aws-paper-dark">
+          <div className="flex w-full items-center px-2 hover:bg-black/5 dark:hover:bg-white/10">
             {isDarkTheme ? (
               <IoMoonSharp className="mr-2" />
             ) : (

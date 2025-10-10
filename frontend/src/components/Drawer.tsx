@@ -281,11 +281,23 @@ const Drawer: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className="relative h-full overflow-y-auto bg-aws-squid-ink-light scrollbar-thin scrollbar-track-white scrollbar-thumb-aws-squid-ink-light/30 dark:bg-aws-ui-color-dark dark:scrollbar-thumb-aws-ui-color-dark/30">
+      <div className="relative h-full overflow-y-auto px-1 py-2 lg:px-2 lg:py-3">
+        {!opened && (
+          <button
+            className="hidden lg:flex fixed left-3 top-3 z-50 items-center gap-2 rounded-full glass-surface px-3 py-1.5 text-sm text-aws-font-color-light dark:text-aws-font-color-white-dark shadow-soft ring-1 ring-black/5 dark:ring-white/10 hover:bg-white/70 dark:hover:bg-white/20"
+            onClick={switchOpen}
+            aria-label="Open menu"
+          >
+            <PiListBullets className="text-base" />
+            <span>Menu</span>
+          </button>
+        )}
         <nav
           className={`lg:visible lg:w-64 ${
             opened ? 'visible w-64' : 'invisible w-0'
-          } text-sm  text-white transition-width`}>
+          } transition-width relative z-50`}
+        >
+          <div className="mx-2 rounded-2xl glass-surface ring-1 ring-black/5 dark:ring-white/10 text-sm text-aws-font-color-light dark:text-aws-font-color-white-dark shadow-soft overflow-hidden">
           {!isAdminPanel && (
             <>
               <DrawerItem
@@ -312,7 +324,7 @@ const Drawer: React.FC<Props> = (props) => {
 
               <ExpandableDrawerGroup
                 label={t('app.starredBots')}
-                className="border-t bg-aws-squid-ink-light pt-1 dark:bg-aws-squid-ink-dark">
+                className="border-t pt-1">
                 {starredBots === undefined && (
                   <div className="flex flex-col gap-2 p-2">
                     <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
@@ -357,7 +369,7 @@ const Drawer: React.FC<Props> = (props) => {
 
               <ExpandableDrawerGroup
                 label={t('app.recentlyUsedBots')}
-                className="border-t bg-aws-squid-ink-light pt-1 dark:bg-aws-squid-ink-dark ">
+                className="border-t pt-1">
                 {recentlyUsedUnstarredBots === undefined && (
                   <div className="flex flex-col gap-2 p-2">
                     <Skeleton className="h-10 w-full bg-aws-sea-blue-light/50 dark:bg-aws-sea-blue-dark/50" />
@@ -403,7 +415,7 @@ const Drawer: React.FC<Props> = (props) => {
               <ExpandableDrawerGroup
                 label={t('app.conversationHistory')}
                 className={twMerge(
-                  'border-t bg-aws-squid-ink-light pt-1 dark:bg-aws-squid-ink-dark',
+                  'border-t pt-1',
                   props.isAdmin ? 'mb-20' : 'mb-10'
                 )}>
                 {conversations === undefined && (
@@ -472,7 +484,7 @@ const Drawer: React.FC<Props> = (props) => {
             className={twMerge(
               opened ? 'w-64' : 'w-0',
               props.isAdmin ? 'h-20' : 'h-10',
-              'fixed -bottom-2 z-50 mb-2 flex flex-col items-start border-t bg-aws-squid-ink-light transition-width dark:bg-aws-ui-color-dark lg:w-64'
+              'fixed -bottom-2 z-50 mb-2 flex flex-col items-start border-t transition-width lg:w-64 glass-surface ring-1 ring-black/5 dark:ring-white/10'
             )}>
             {props.isAdmin && !isAdminPanel && (
               <DrawerItem
@@ -495,12 +507,13 @@ const Drawer: React.FC<Props> = (props) => {
               />
             )}
             <Menu
-              className="mx-2 flex h-10 w-60 justify-start"
+              className="mx-2 flex h-10 w-60 justify-start text-aws-font-color-light dark:text-aws-font-color-white-dark"
               onSignOut={props.onSignOut}
               onSelectLanguage={props.onSelectLanguage}
               onClearConversations={props.onClearConversations}
               onClickDrawerOptions={props.onClickDrawerOptions}
             />
+          </div>
           </div>
         </nav>
       </div>

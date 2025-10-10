@@ -468,8 +468,16 @@ const useChat = () => {
           .then(() => {
             resolve();
           })
-          .catch((e) => {
-            reject(e);
+          .catch(async (e) => {
+            console.error('Streaming failed, falling back to HTTP postMessage', e);
+            try {
+              const res = await conversationApi.postMessage(input);
+              const textBody = getTextContentBody(res.data.message.content);
+              editMessage(conversationId, NEW_MESSAGE_ID.ASSISTANT, textBody);
+              resolve();
+            } catch (err) {
+              reject(err);
+            }
           })
           .finally(() => {
             subscription.unsubscribe();
@@ -550,8 +558,16 @@ const useChat = () => {
       .then(() => {
         mutate();
       })
-      .catch((e) => {
-        console.error(e);
+      .catch(async (e) => {
+        console.error('Streaming continueGenerate failed, fallback to HTTP', e);
+        try {
+          const res = await conversationApi.postMessage(input);
+          const textBody = getTextContentBody(res.data.message.content);
+          editMessage(conversationId, currentMessage.id, currentContentBody + textBody);
+          mutate();
+        } catch (err) {
+          console.error(err);
+        }
       })
       .finally(() => {
         subscription.unsubscribe();
@@ -652,10 +668,18 @@ const useChat = () => {
       .then(() => {
         mutate();
       })
-      .catch((e) => {
-        console.error(e);
-        setCurrentMessageId(NEW_MESSAGE_ID.USER);
-        removeMessage(conversationId, NEW_MESSAGE_ID.ASSISTANT);
+      .catch(async (e) => {
+        console.error('Streaming regenerate failed, fallback to HTTP', e);
+        try {
+          const res = await conversationApi.postMessage(input);
+          const textBody = getTextContentBody(res.data.message.content);
+          editMessage(conversationId, NEW_MESSAGE_ID.ASSISTANT, textBody);
+          mutate();
+        } catch (err) {
+          console.error(err);
+          setCurrentMessageId(NEW_MESSAGE_ID.USER);
+          removeMessage(conversationId, NEW_MESSAGE_ID.ASSISTANT);
+        }
       })
       .finally(() => {
         subscription.unsubscribe();
