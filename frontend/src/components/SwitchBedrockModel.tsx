@@ -46,10 +46,10 @@ const SwitchBedrockModel: React.FC<Props> = (props) => {
             <Popover.Button
               className={`${
                 props.className ?? ''
-              } group inline-flex w-auto whitespace-nowrap rounded border-aws-squid-ink-light/50 dark:border-aws-squid-ink-dark/50 bg-aws-paper-light dark:bg-aws-paper-dark p-2 px-3 text-base hover:brightness-75`}>
-              <div className="flex items-center justify-between text-xl font-bold text-dark-gray dark:text-light-gray">
-                <span>{modelName}</span>
-                <PiCaretDown className="ml-2" />
+              } group inline-flex max-w-xs items-center whitespace-nowrap bg-transparent px-0 py-0 text-sm font-semibold text-dark-gray hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-aws-aqua/50 dark:text-light-gray`}>
+              <div className="flex items-center">
+                <span className="truncate">{modelName}</span>
+                <PiCaretDown className="ml-1 text-xs opacity-80" />
               </div>
             </Popover.Button>
             <Transition
@@ -60,31 +60,29 @@ const SwitchBedrockModel: React.FC<Props> = (props) => {
               leave="transition ease-in duration-150"
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1">
-              <Popover.Panel className="absolute left-0 top-14 z-10 w-96">
-                <div className="mt-0.5 overflow-hidden shadow-lg">
-                  <div className="flex flex-col whitespace-nowrap rounded border border-aws-font-color-light/50 dark:border-aws-font-color-dark/50 bg-white dark:bg-aws-ui-color-dark text-sm max-h-80 overflow-y-auto">
+              <Popover.Panel className="absolute left-0 top-12 z-10 w-72">
+                <div className="mt-1 overflow-hidden rounded-xl border border-aws-font-color-light/30 bg-white/95 shadow-xl backdrop-blur dark:border-aws-font-color-dark/30 dark:bg-aws-ui-color-dark/95">
+                  <div className="flex flex-col whitespace-nowrap text-sm max-h-80 overflow-y-auto">
                     {availableModels.map((model) => (
                       <div
                         key={model.modelId}
-                        className="m-1 flex cursor-pointer rounded p-1 px-2 hover:bg-light-gray dark:hover:bg-aws-paper-dark"
+                        className="m-1.5 flex cursor-pointer rounded-lg p-2 hover:bg-light-gray dark:hover:bg-aws-paper-dark"
                         onClick={() => {
                           setModelId(model.modelId);
                         }}>
-                        <div className="mr-3 flex flex-col items-center justify-center">
+                        <div className="mr-2 flex items-center">
                           <PiCheck
                             className={
-                              model.modelId === modelId
-                                ? ''
-                                : 'text-transparent'
+                              model.modelId === modelId ? 'text-aws-aqua' : 'text-transparent'
                             }
                           />
                         </div>
-                        <div>
-                          <div className="block text-left font-semibold">
+                        <div className="min-w-0">
+                          <div className="block truncate text-left font-medium">
                             <span>{model.label}</span>
                           </div>
                           {model.description && (
-                            <div className="block whitespace-normal text-left text-xs text-dark-gray dark:text-aws-font-color-dark">
+                            <div className="block whitespace-normal text-left text-[11px] text-dark-gray/80 dark:text-aws-font-color-dark/80">
                               <span>{model.description}</span>
                             </div>
                           )}

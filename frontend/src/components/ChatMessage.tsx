@@ -8,6 +8,7 @@ import {
   PiUserFill,
   PiThumbsDown,
   PiThumbsDownFill,
+  PiRobotFill,
 } from 'react-icons/pi';
 import { BaseProps } from '../@types/common';
 import {
@@ -184,8 +185,8 @@ const ChatMessage: React.FC<Props> = (props) => {
           </div>
         )}
         {chatContent?.role === 'assistant' && (
-          <div className="min-w-[2.3rem] max-w-[2.3rem]">
-            <img src="/images/bedrock_icon_64.png" className="rounded" />
+          <div className="h-min rounded bg-aws-aqua p-2 text-xl text-white">
+            <PiRobotFill />
           </div>
         )}
 

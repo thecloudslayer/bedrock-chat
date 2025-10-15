@@ -19,7 +19,6 @@ import {
 } from 'react-icons/pi';
 import Button from '../components/Button';
 import { useTranslation } from 'react-i18next';
-import SwitchBedrockModel from '../components/SwitchBedrockModel';
 import useSnackbar from '../hooks/useSnackbar';
 import useBot from '../hooks/useBot';
 import useConversation from '../hooks/useConversation';
@@ -83,7 +82,6 @@ const ChatPage: React.FC = () => {
     regenerate,
     continueGenerate,
     getPostedModel,
-    loadingConversation,
     getShouldContinue,
     relatedDocuments,
     giveFeedback,
@@ -474,7 +472,7 @@ const ChatPage: React.FC = () => {
       onDrop={endDnd}
       onDragEnd={endDnd}>
       <div className="flex-1 overflow-hidden">
-        <div className="sticky top-0 z-10 mb-1.5 flex h-14 w-full items-center justify-between border-b border-gray bg-aws-paper-light p-2 dark:bg-aws-paper-dark">
+        <div className="sticky top-0 z-10 mb-1.5 flex h-14 w-full items-center justify-between bg-aws-paper-light p-2 dark:bg-aws-paper-dark">
           <div className="flex w-full justify-between">
             <div className="p-2">
               <div className="mr-10 flex items-center whitespace-nowrap font-bold">
@@ -558,13 +556,6 @@ const ChatPage: React.FC = () => {
               className="flex h-full flex-col overflow-auto pb-16">
               {messages?.length === 0 ? (
                 <div className="relative mb-[45vh]  flex w-full flex-col items-center justify-center">
-                  {!loadingConversation && (
-                    <SwitchBedrockModel
-                      className="mb-6 mt-3 w-min"
-                      activeModels={activeModels}
-                      botId={botId}
-                    />
-                  )}
                   <div className="px-20">
                     <div className="px-10 text-lg font-bold">
                       {isLoadingBot && botId && (
@@ -660,11 +651,11 @@ const ChatPage: React.FC = () => {
             {bot?.conversationQuickStarters?.map((qs, idx) => (
               <div
                 key={idx}
-                className="w-[calc(33.333%-0.5rem)] cursor-pointer rounded-2xl border border-aws-squid-ink-light/20 bg-white p-2 text-sm  text-dark-gray hover:shadow-lg hover:shadow-gray  dark:border-aws-squid-ink-dark/20 dark:text-light-gray"
+                className="w-[calc(33.333%-0.5rem)] cursor-pointer rounded-2xl border border-black/5 bg-white/80 p-2 text-sm text-dark-gray transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/10 dark:border-white/10 dark:bg-white/5 dark:text-light-gray"
                 onClick={() => {
                   onSend(qs.example, reasoningEnabled);
                 }}>
-                <div>
+                <div className="opacity-70">
                   <PiPenNib />
                 </div>
                 {qs.title}
@@ -696,6 +687,8 @@ const ChatPage: React.FC = () => {
           supportReasoning={supportReasoning}
           reasoningEnabled={reasoningEnabled}
           onChangeReasoning={setReasoningEnabled}
+          activeModels={activeModels}
+          botId={botId}
         />
       </div>
       <BottomHelper />

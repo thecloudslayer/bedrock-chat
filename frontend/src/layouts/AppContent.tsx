@@ -2,18 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Drawer from '../components/Drawer';
 import { BaseProps } from '../@types/common';
 import { ConversationMeta } from '../@types/conversation';
-import LazyOutputText from '../components/LazyOutputText';
-import { PiList, PiPlus } from 'react-icons/pi';
+import {  PiArrowCircleRightLight, PiPlus } from 'react-icons/pi';
 import ButtonIcon from '../components/ButtonIcon';
 import SnackbarProvider from '../providers/SnackbarProvider';
 import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useDrawer from '../hooks/useDrawer';
 import useConversation from '../hooks/useConversation';
 import useBot from '../hooks/useBot';
 import useChat from '../hooks/useChat';
-import { usePageLabel, usePageTitlePathPattern } from '../routes';
 import useLoginUser from '../hooks/useLoginUser';
 import DialogConfirmDeleteChat from '../components/DialogConfirmDeleteChat';
 import DialogConfirmClearConversations from '../components/DialogConfirmClearConversations';
@@ -27,20 +25,16 @@ type Props = BaseProps & {
 
 const AppContent: React.FC<Props> = (props) => {
   const { i18n } = useTranslation();
-  const { getPageLabel } = usePageLabel();
   const { switchOpen: switchDrawer } = useDrawer();
   const navigate = useNavigate();
-  const { conversationId } = useParams();
   const {
     conversations,
-    getTitle,
     updateTitle,
     deleteConversation,
     clearConversations: clear,
   } = useConversation();
   const { starredBots, recentlyUsedUnstarredBots } = useBot();
-  const { newChat, isGeneratedTitle } = useChat();
-  const { isConversationOrNewChat, pathPattern } = usePageTitlePathPattern();
+  const { newChat } = useChat();
   const { isAdmin } = useLoginUser();
   const [theme] = useLocalStorage('theme', 'light');
   useEffect(() => {
@@ -89,7 +83,7 @@ const AppContent: React.FC<Props> = (props) => {
   const { drawerOptions, setDrawerOptions } = useDrawer();
 
   return (
-    <div className="relative flex h-dvh w-screen bg-aws-paper-light dark:bg-aws-paper-dark">
+    <div className="relative flex h-dvh w-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
       <Drawer
         isAdmin={isAdmin}
         conversations={conversations}
@@ -146,28 +140,16 @@ const AppContent: React.FC<Props> = (props) => {
       />
 
       <main className="relative flex min-h-dvh flex-1 flex-col overflow-y-hidden transition-width">
-        <header className="visible sticky top-3 z-20 mx-3 mt-3 flex h-12 w-[calc(100%-1.5rem)] items-center rounded-xl glass-surface px-3 text-lg text-aws-font-color-light dark:text-aws-font-color-white-dark shadow-soft ring-1 ring-black/5 dark:ring-white/10 lg:hidden lg:h-0">
+        <header className="visible sticky top-3 z-20 mx-3 mt-3 flex h-12 w-[calc(100%-1.5rem)] items-center rounded-xl px-3 text-lg text-aws-font-color-light dark:text-aws-font-color-white-dark lg:hidden lg:h-0">
           <button
             className="mr-2 rounded-full p-2 transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/10 focus:outline-none focus:ring-1 focus:ring-blue-400/50"
             onClick={() => {
               switchDrawer();
             }}>
-            <PiList />
+            < PiArrowCircleRightLight  />
           </button>
 
-          <div className="flex-1 justify-center">
-            {isGeneratedTitle ? (
-              <>
-                <LazyOutputText text={getTitle(conversationId ?? '')} />
-              </>
-            ) : (
-              <>
-                {isConversationOrNewChat
-                  ? getTitle(conversationId ?? '')
-                  : getPageLabel(pathPattern)}
-              </>
-            )}
-          </div>
+          <div className="flex-1" />
 
           <ButtonIcon onClick={onClickNewChat}>
             <PiPlus />

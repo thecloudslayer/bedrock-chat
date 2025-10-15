@@ -6,8 +6,8 @@ const translation = {
       },
     },
     app: {
-      name: 'Bedrock Chat',
-      inputMessage: 'How can I Help You?',
+      name: 'HCPS GenAI Chat',
+      inputMessage: "Hi, i'm HCPS's GenAI chat. How can i help you?",
       starredBots: 'Starred Bots',
       recentlyUsedBots: 'Recently Used Bots',
       conversationHistory: 'Recent Chats',
@@ -15,6 +15,7 @@ const translation = {
       adminConsoles: 'Admin Panel',
       backChat: 'Back to Chat',
       userGroups: 'User Groups',
+      aiAnalytics: 'AI Analytics',
     },
     model: {
       'claude-v4-opus': {
@@ -237,7 +238,7 @@ const translation = {
         sitemap: 'Sitemap URL',
         file: 'File',
         loadingBot: 'Loading...',
-        normalChat: 'Chat',
+        normalChat: '',
         notAvailableBot: '[NOT Available]',
         notAvailableBotInputMessage: 'This bot is NOT available.',
         noDescription: 'No Description',
@@ -1011,6 +1012,19 @@ How would you categorize this email?`,
       number: {
         greaterThen: '{{key}} must be greater then {{value}} ',
       },
+    },
+    support: {
+      open: 'Support',
+      title: 'Contact Support',
+      description: 'Send a support ticket to the team.',
+      subject: 'Subject',
+      subjectPlaceholder: 'Briefly summarize your issue',
+      details: 'Details',
+      detailsPlaceholder: 'Describe the issue you are experiencing',
+      attachCurrentChat: 'Attach Current Chat',
+      attached: 'Current chat attached',
+      send: 'Send Ticket',
+      submitted: 'Support ticket sent.'
     },
     helper: {
       shortcuts: {

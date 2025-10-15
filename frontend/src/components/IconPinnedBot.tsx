@@ -1,5 +1,5 @@
 import React from 'react';
-import { PiSealCheck, PiSealCheckFill } from 'react-icons/pi';
+import { PiRobot, PiRobotFill } from 'react-icons/pi';
 import { BaseProps } from '../@types/common';
 import { isPinnedBot } from '../utils/BotUtils';
 
@@ -30,9 +30,9 @@ const IconPinnedBot: React.FC<Props> = ({
   }
 
   return outlined ? (
-    <PiSealCheck className={className} />
+    <PiRobot className={className} />
   ) : (
-    <PiSealCheckFill className={className} />
+    <PiRobotFill className={className} />
   );
 };
 

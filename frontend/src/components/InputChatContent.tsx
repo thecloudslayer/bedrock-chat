@@ -16,6 +16,7 @@ import {
   PiRobot,
 } from 'react-icons/pi';
 import { LuFilePlus2 } from 'react-icons/lu';
+import { MdSupportAgent } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';
 import ButtonIcon from './ButtonIcon';
 import useModel from '../hooks/useModel';
@@ -24,10 +25,12 @@ import { twMerge } from 'tailwind-merge';
 import { create } from 'zustand';
 import ButtonFileChoose from './ButtonFileChoose';
 import ButtonReasoning from './ButtonReasoning';
+import SwitchBedrockModel from './SwitchBedrockModel';
 import { BaseProps } from '../@types/common';
 import ModalDialog from './ModalDialog';
 import UploadedAttachedFile from './UploadedAttachedFile';
 import useSnackbar from '../hooks/useSnackbar';
+import SupportTicketModal from './SupportTicketModal';
 import {
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_MB,
@@ -57,6 +60,9 @@ type Props = BaseProps & {
   supportReasoning: boolean;
   reasoningEnabled: boolean;
   onChangeReasoning: (enabled: boolean) => void;
+  // Optional: to render the model switcher inside the input card
+  activeModels?: import('../@types/bot').ActiveModels;
+  botId?: string | null;
 };
 // Image size
 // Ref: https://docs.anthropic.com/en/docs/build-with-claude/vision#evaluate-image-size
@@ -166,6 +172,7 @@ const InputChatContent = forwardRef<HTMLElement, Props>(
     }, [acceptMediaType]);
 
     const [content, setContent] = useState('');
+    const [isOpenSupport, setIsOpenSupport] = useState(false);
     const { reasoningEnabled, onChangeReasoning } = props;
 
     const {
@@ -474,8 +481,17 @@ const InputChatContent = forwardRef<HTMLElement, Props>(
           onDrop={onDrop}
           className={twMerge(
             props.className,
-            'relative mb-7 flex w-11/12 flex-col gap-1 rounded-2xl glass-surface ring-1 ring-black/5 dark:ring-white/10 md:w-10/12 lg:w-4/6 xl:w-3/6'
+            'relative mb-7 flex w-11/12 flex-col gap-2 rounded-2xl glass-surface ring-1 ring-black/5 dark:ring-white/10 shadow-xl shadow-black/5 dark:shadow-black/40 md:w-10/12 lg:w-4/6 xl:w-3/6'
           )}>
+          {props.activeModels && (
+            <div className="flex w-full items-center justify-center pt-1.5">
+              <SwitchBedrockModel
+                className="w-min text-xs opacity-90 hover:opacity-100 transition"
+                activeModels={props.activeModels}
+                botId={props.botId}
+              />
+            </div>
+          )}
           <div className="flex w-full">
             <Textarea
               key={`textarea-${props.isNewChat}`} // Add a key to force re-render
@@ -498,6 +514,14 @@ const InputChatContent = forwardRef<HTMLElement, Props>(
                 onChange={onChangeFile}>
                 <LuFilePlus2 />
               </ButtonFileChoose>
+              <div title={t('support.open')}>
+                <ButtonIcon
+                  className="ml-1"
+                  disabled={props.isLoading}
+                  onClick={() => setIsOpenSupport(true)}>
+                  <MdSupportAgent className="text-red-500" />
+                </ButtonIcon>
+              </div>
               {props.supportReasoning && (
                 <ButtonReasoning
                   disabled={props.isLoading || props.canContinue}
@@ -592,6 +616,10 @@ const InputChatContent = forwardRef<HTMLElement, Props>(
             </div>
           )}
         </div>
+        <SupportTicketModal
+          isOpen={isOpenSupport}
+          onClose={() => setIsOpenSupport(false)}
+        />
       </>
     );
   }

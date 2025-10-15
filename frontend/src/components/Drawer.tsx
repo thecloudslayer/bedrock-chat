@@ -18,6 +18,8 @@ import {
   PiCheck,
   PiCompass,
   PiListBullets,
+  PiArrowCircleRightLight,
+  PiArrowCircleLeftLight,
   PiNotePencil,
   PiPencilLine,
   PiPlugs,
@@ -29,7 +31,6 @@ import {
 import LazyOutputText from './LazyOutputText';
 import { ConversationMeta } from '../@types/conversation';
 import { BotListItem } from '../@types/bot';
-import { isMobile } from 'react-device-detect';
 import useChat from '../hooks/useChat';
 import { useTranslation } from 'react-i18next';
 import Menu from './Menu';
@@ -247,31 +248,19 @@ const Drawer: React.FC<Props> = (props) => {
     []
   );
 
+  // Ref used only to attach to the small-screen overlay container.
+  // Note: we intentionally do not rely on this ref for toggle logic anymore.
   const smallDrawer = useRef<HTMLDivElement>(null);
 
   const closeSmallDrawer = useCallback(() => {
-    if (smallDrawer.current?.classList.contains('visible')) {
+    // On small screens, close the drawer after navigation/actions
+    if (
+      opened &&
+      typeof window !== 'undefined' &&
+      window.matchMedia('(max-width: 1023px)').matches
+    ) {
       switchOpen();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useLayoutEffect(() => {
-    // リサイズイベントを拾って状態を更新する
-    const onResize = () => {
-      if (isMobile) {
-        return;
-      }
-
-      // 狭い画面のDrawerが表示されていて、画面サイズが大きくなったら状態を更新
-      if (!smallDrawer.current?.checkVisibility() && opened) {
-        switchOpen();
-      }
-    };
-    onResize();
-
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opened]);
 
@@ -287,17 +276,30 @@ const Drawer: React.FC<Props> = (props) => {
             className="hidden lg:flex fixed left-3 top-3 z-50 items-center gap-2 rounded-full glass-surface px-3 py-1.5 text-sm text-aws-font-color-light dark:text-aws-font-color-white-dark shadow-soft ring-1 ring-black/5 dark:ring-white/10 hover:bg-white/70 dark:hover:bg-white/20"
             onClick={switchOpen}
             aria-label="Open menu"
+            title="Open menu"
           >
-            <PiListBullets className="text-base" />
-            <span>Menu</span>
+            <PiArrowCircleRightLight className="text-base" />
           </button>
         )}
         <nav
-          className={`lg:visible lg:w-64 ${
+          className={`${
             opened ? 'visible w-64' : 'invisible w-0'
           } transition-width relative z-50`}
+          aria-hidden={!opened}
         >
           <div className="mx-2 rounded-2xl glass-surface ring-1 ring-black/5 dark:ring-white/10 text-sm text-aws-font-color-light dark:text-aws-font-color-white-dark shadow-soft overflow-hidden">
+            {/* Desktop collapse button */}
+            <div className="hidden lg:flex items-center justify-end p-2 border-b border-black/5 dark:border-white/10">
+              <button
+                className="inline-flex items-center gap-2 rounded-md px-2 py-1 text-xs hover:bg-black/5 dark:hover:bg-white/10 focus:outline-none focus:ring-1 focus:ring-blue-400/50"
+                onClick={switchOpen}
+                aria-label="Hide menu"
+                title="Hide menu"
+              >
+                <PiArrowCircleLeftLight className="text-base" />
+                <span className="sr-only">Hide</span>
+              </button>
+            </div>
           {!isAdminPanel && (
             <>
               <DrawerItem
@@ -319,6 +321,13 @@ const Drawer: React.FC<Props> = (props) => {
                 icon={<PiCompass />}
                 to="/bot/discover"
                 labelComponent={getPageLabel('/bot/discover')}
+                onClick={closeSmallDrawer}
+              />
+              <DrawerItem
+                isActive={false}
+                icon={<PiChartLine />}
+                to="/analytics"
+                labelComponent={getPageLabel('/analytics')}
                 onClick={closeSmallDrawer}
               />
 

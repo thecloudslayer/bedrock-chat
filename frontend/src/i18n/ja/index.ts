@@ -18,6 +18,7 @@ const translation: typeof en = {
       adminConsoles: '管理者用機能',
       userGroups: 'ユーザーグループ',
       backChat: 'チャットに戻る',
+      aiAnalytics: 'AI アナリティクス',
     },
     model: {
       'claude-v4-opus': {
@@ -1019,6 +1020,19 @@ const translation: typeof en = {
       number: {
         greaterThen: '{{key}}は{{value}}より大きい数字にしてください。',
       },
+    },
+    support: {
+      open: 'サポート',
+      title: 'サポートへの連絡',
+      description: 'サポートチケットをチームに送信します。',
+      subject: '件名',
+      subjectPlaceholder: '問題の概要を簡潔に記載してください',
+      details: '詳細',
+      detailsPlaceholder: '発生している問題について説明してください',
+      attachCurrentChat: '現在のチャットを添付',
+      attached: '現在のチャットを添付しました',
+      send: 'チケットを送信',
+      submitted: 'サポートチケットを送信しました。'
     },
     helper: {
       shortcuts: {

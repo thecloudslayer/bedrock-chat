@@ -14,7 +14,8 @@ export default defineConfig({
       },
       injectRegister: 'auto',
       workbox: {
-        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+        // Increase precache limit to accommodate current bundle (~3.25 MB)
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
       },
       manifest: {
         name: 'Bedrock Chat',
